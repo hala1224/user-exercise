@@ -3,13 +3,13 @@
     <% end %>
 
 
-<h1>Welcome, here are <%= @user.username %>'s Tweets:</h1>
+<h1>Welcome, here are <%= @user.username %>'s Exercise Classess:</h1>
 
-<p><% @user.tweets.each do |tweet| %>
-     <a href="/tweets/<%= tweet.id %>"><%= tweet.content %> </a><br>
+<p><% @user.exercises.each do |exercise| %>
+     <a href="/exercises/<%= exercise.id %>"><%= exercise.content %> </a><br>
     <% end %> </p>
 
       <br>
 
-      <p> <a href="/tweets/new">Create a New Tweet</a></p>
-        <p><a href="/tweets">Home</a></p>
+      <p> <a href="/exercises/new">Create a New Exercise Class</a></p>
+        <p><a href="/exercises">Home</a></p>
