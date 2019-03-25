@@ -64,7 +64,7 @@ class ApplicationController < Sinatra::Base
 
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
-    @exercises = @user.tweets
+    @exercises = @user.exercises
     erb :"/users/show"
   end
 
@@ -84,7 +84,7 @@ class ApplicationController < Sinatra::Base
       @exercise.save
       erb :"/exercises/show_exercise"
     elsif logged_in? && params[:content] == ""
-      flash[:notice] = "Your tweet is blank!"
+      flash[:notice] = "Your class is blank!"
       redirect '/exercises/new'
     else
       flash[:notice] = "Please log in to proceed"
@@ -131,7 +131,7 @@ class ApplicationController < Sinatra::Base
 
   patch "/exercises/:id" do
     if params[:content] == ""
-      flash[:notice] = "Please enter content to proceed"
+      flash[:notice] = "Please enter class description to proceed"
       redirect "/exercises/#{params[:id]}/edit"
     else
       @exercise = Exercise.find(params[:id])
@@ -166,6 +166,7 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def current_user
+      binding.pry
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end
 
