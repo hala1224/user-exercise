@@ -7,7 +7,7 @@
 
 <h3>
   <p><% Exercise.all.each do |exercise| %>
-     <p><a href="/users/<%= exercise.user.slug %>"><%= exercise.user.username %> creating! <a href="/exercises/<%= exercise.id %>">"<%= exercise.content %>"</p>
+     <p><a href="/users/<%= exercise.user.slug %>"><%= exercise.user.username %> Added a Class: <a href="/exercises/<%= exercise.id %>">"<%= exercise.content %>"</p>
     <% end %>
   </p> </h3>
 
