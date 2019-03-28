@@ -52,13 +52,14 @@ class ApplicationController < Sinatra::Base
         @user.save
         session[:user_id] = @user.id
         flash[:notice] = "Welcome to DSN gym!"
-        # binding.pry
         redirect '/exercises'
-       else
+      elsif
+         @user.username.downcase == check.username.downcase
          flash[:error] = "Username is taken!"
-         # binding.pry
+         binding.pry
          redirect '/signup'
-      end
+       end
+      # end
     end
   end
 
@@ -185,6 +186,10 @@ class ApplicationController < Sinatra::Base
 
     def logged_in?
       !!current_user
+    end
+
+    def username_taken?
+
     end
   end
 
