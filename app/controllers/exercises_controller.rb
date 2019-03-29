@@ -5,15 +5,18 @@ class ExercisesController < ApplicationController
     @user = current_user
     if logged_in?
       erb :"/exercises/create_exercise"
-    else
+    end
+    if redirect_if_not_logged_in
       redirect '/login'
     end
-  end
+   end
+
 
   post "/new" do
     if logged_in? && params[:content] != ""
       @user = current_user
-      @exercise = Exercise.create(content: params["content"], user_id: params[:user_id])
+      # switched params[:user_id] to session for protection
+      @exercise = Exercise.create(content: params["content"], user_id: session[:user_id])
       @exercise.save
       erb :"/exercises/show_exercise"
     elsif logged_in? && params[:content] == ""
@@ -29,15 +32,17 @@ class ExercisesController < ApplicationController
     if logged_in?
       @user = current_user
       erb :"/exercises/exercises"
-    else
+    end
+    if redirect_if_not_logged_in
       redirect '/login'
     end
   end
 
+
   get "/exercises/:id" do
     @user = current_user
     @exercise = Exercise.find_by_id(params[:id])
-    if !logged_in?
+    if redirect_if_not_logged_in
       redirect '/login'
     else
       erb :"/exercises/show_exercise"
@@ -48,12 +53,12 @@ class ExercisesController < ApplicationController
     if logged_in?
       @exercise = Exercise.find(params[:id])
       if @exercise.user_id == session[:user_id]
-        # binding.pry
-      erb :"/exercises/edit_exercise"
+        erb :"/exercises/edit_exercise"
       else
         redirect '/login'
       end
-    else
+    end
+    if redirect_if_not_logged_in
       redirect '/login'
     end
   end
@@ -67,9 +72,16 @@ class ExercisesController < ApplicationController
       flash[:notice] = "Please enter class description to proceed"
       redirect "/exercises/#{params[:id]}/edit"
     else
-      @exercise = Exercise.find(params[:id])
-      @exercise.update(content: params[:content])
-      redirect "/exercises/#{@exercise.id}"
+      @user = current_user
+      @exercise = Exercise.find_by_id(params[:id])
+      if logged_in? && @exercise.user_id == session[:user_id]
+          @exercise = Exercise.find(params[:id])
+          @exercise.update(content: params[:content])
+          redirect "/exercises/#{@exercise.id}"
+       else
+          erb :'/exercises/error'
+       end
+
     end
   end
 

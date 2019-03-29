@@ -5,6 +5,7 @@
 <h1><%=@exercise.user.username %> adding </h1>
     <h2> "<%= @exercise.content %>"</h2>
       <br></br>
+<% if @exercise.user.username == @current_user.username%>
 
 <a href='/exercises/<%= @exercise.id %>/edit'><h4>Edit Exercise</h4></a>
 <p>
@@ -12,6 +13,7 @@
       <input type="hidden" id="hidden" name="_method" value="delete">
       <input type='submit' id="delete" name="delete" value='Delete Exercise'>
     </form>
+    <% end %>
 
     <p><a href="/exercises/new">Create a New Exercise</a></p>
       <p><a href="/exercises">Home</a></p>
