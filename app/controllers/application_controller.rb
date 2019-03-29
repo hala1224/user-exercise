@@ -107,11 +107,18 @@ class ApplicationController < Sinatra::Base
    # + get "/exercises/:id/edit"
    # + get "/exercises/:id"
    # + get "/exercises"
+   # Add in the helper method to the "get '/users/:slug'" action in the Users Controller.
+   # Add in the helper method to the "get '/users/:slug'" action in the Users Controller.
 
 
     def redirect_if_not_logged_in
-     !logged_in?
+     if !logged_in?
+       redirect '/login'
+       get '/users/:slug'
+     end
     end
+
+
   end
 
 end
