@@ -1,23 +1,23 @@
 class UsersController < ApplicationController
 
  get '/show' do
-   if logged_in?
-     @user = current_user
-     @exercises = @user.exercises
-     erb :"/users/show.erb/"
-   else
-     redirect '/login'
-   end
+  redirect_if_not_logged_in
+  @user = current_user
+  @exercises = @user.exercises
+  erb :'/users/show'
+ end
+
+ get '/users' do
+      redirect_if_not_logged_in
+      @users = User.all
+      erb :'/users/index'
  end
 
  get '/users/:slug' do
-   if !redirect_if_not_logged_in
+    redirect_if_not_logged_in
      @user = User.find_by_slug(params[:slug])
      @exercises = @user.exercises
      erb :"/users/show"
-   else
-     redirect '/login'
-   end
  end
 
 

@@ -56,11 +56,6 @@ class ApplicationController < Sinatra::Base
       elsif
          @user.username.downcase == check.username.downcase
          flash[:error] = "Username is taken!"
-#   Need to redirect to /users/error
-#  else /signup
-
-
-         # binding.pry
          redirect '/signup'
        end
       # end
@@ -91,6 +86,12 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
+
+    def redirect_if_not_logged_in
+     if !logged_in?
+       redirect '/login'
+     end
+    end
     def current_user
       # binding.pry
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -99,26 +100,8 @@ class ApplicationController < Sinatra::Base
     def logged_in?
       !!current_user
     end
-   #  A `redirect_if_not_logged_in helper` method in your Application Controller.
-    # This method should check for any not logged in users, and send them back to the login page.
-   #
-   # - Refactor you code to use the redirect_if_not_logged_in helper method in the following Exercise controller actions:
-   # + get "/exercises/new"
-   # + get "/exercises/:id/edit"
-   # + get "/exercises/:id"
-   # + get "/exercises"
-   # Add in the helper method to the "get '/users/:slug'" action in the Users Controller.
-   # Add in the helper method to the "get '/users/:slug'" action in the Users Controller.
+  end
 
-
-    def redirect_if_not_logged_in
-     if !logged_in?
-       redirect '/login'
-       get '/users/:slug'
-     end
-    end
 
 
   end
-
-end

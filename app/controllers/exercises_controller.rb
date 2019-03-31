@@ -3,11 +3,8 @@ class ExercisesController < ApplicationController
 
   get "/exercises/new" do
     @user = current_user
-    if logged_in?
-      erb :"/exercises/create_exercise"
-    else
-      redirect_if_not_logged_in
-    end
+    redirect_if_not_logged_in
+    erb :"/exercises/create_exercise"
    end
 
 
@@ -28,52 +25,28 @@ class ExercisesController < ApplicationController
   end
 
   get "/exercises" do
-   #  if logged_in?
-   #    @user = current_user
-   #    erb :"/exercises/exercises"
-   #  else
-   #  # binding.pry
-   #      if redirect_if_not_logged_in
-   #        redirect '/login'
-   #      end
-   #  redirect '/login'
-   # end
-
-   if !logged_in?
      redirect_if_not_logged_in
-   else
      @user = current_user
      erb :"/exercises/exercises"
-   end
   end
-
 
   get "/exercises/:id" do
     @user = current_user
     @exercise = Exercise.find_by_id(params[:id])
-    if !logged_in?
-      redirect_if_not_logged_in
-    else
-      erb :"/exercises/show_exercise"
-    end
+    redirect_if_not_logged_in
+    erb :"/exercises/show_exercise"
   end
 
   get "/exercises/:id/edit" do
 
-    if !logged_in?
-      redirect_if_not_logged_in
-    else
-    # if logged_in?
-      @exercise = Exercise.find(params[:id])
-      if @exercise.user_id == session[:user_id]
+    redirect_if_not_logged_in
+    @exercise = Exercise.find(params[:id])
+    if @exercise.user_id == session[:user_id]
        erb :"/exercises/edit_exercise"
-       else
-         redirect '/login'
-       end
-     end
-    # if redirect_if_not_logged_in
-    #   redirect '/login'
-    # end
+    else
+       redirect '/login'
+    end
+
   end
 
 
